@@ -255,10 +255,13 @@
             GITHUB_CLIENT_ID: 'Ov23lidNmqhDkj3hgHtg',
             GITHUB_CLIENT_SECRET: '168b493868c5c289ce38fe37ce4d7cfae4c065b0',
             
-            // CrewAI API - Your credentials
+            // CrewAI API - CORRECT BASE URL
             CREWAI_API_URL: 'https://resume-screening-platform-v1-575d3ff6-3f24--ff3ea2f1.crewai.com',
             CREWAI_API_KEY: 'cd19e1ca8d33',
-            CREWAI_ORGANIZATION_ID: '7f687ea5-3f59-47a8-875c-5a9d07a3cb83'
+            CREWAI_ORGANIZATION_ID: '7f687ea5-3f59-47a8-875c-5a9d07a3cb83',
+            
+            // ✅ FIXED: Use /kickoff endpoint
+            CREWAI_ENDPOINT: '/kickoff'
         };
 
         // ============ DEBUGGING ============
@@ -499,8 +502,11 @@
 
                 updateProgress(30, 'Calling CrewAI API...');
                 
-                // ============ DIRECT API CALL ============
-                const response = await fetch(CONFIG.CREWAI_API_URL, {
+                // ============ ✅ FIXED: Use /kickoff endpoint ============
+                const fullUrl = `${CONFIG.CREWAI_API_URL}${CONFIG.CREWAI_ENDPOINT}`;
+                debugLog(`📡 Full URL: ${fullUrl}`);
+                
+                const response = await fetch(fullUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -567,6 +573,7 @@
             let candidates = [];
             let markdown = '';
 
+            // Try to extract candidates from response
             if (data.output) {
                 markdown = data.output;
                 const lines = data.output.split('\n');
@@ -748,6 +755,8 @@
         // ============ INIT ============
         debugLog('🚀 App initialized');
         debugLog('📡 API URL:', CONFIG.CREWAI_API_URL);
+        debugLog('📡 Endpoint:', CONFIG.CREWAI_ENDPOINT);
+        debugLog('📡 Full URL:', CONFIG.CREWAI_API_URL + CONFIG.CREWAI_ENDPOINT);
         debugLog('🔑 GitHub Client ID:', CONFIG.GITHUB_CLIENT_ID);
         debugLog('🏢 Organization ID:', CONFIG.CREWAI_ORGANIZATION_ID);
         debugLog('🔐 API Key configured:', CONFIG.CREWAI_API_KEY ? '✅ Yes' : '❌ No');

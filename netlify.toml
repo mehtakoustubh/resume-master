@@ -6,13 +6,25 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Add these redirects
+[[redirects]]
+  from = "/callback.html"
+  to = "/callback.html"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
   force = true
 
-# Add this to handle CORS preflight requests
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# CORS headers
 [[headers]]
   for = "/*"
   [headers.values]

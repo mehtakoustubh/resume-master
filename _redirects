@@ -1,8 +1,8 @@
-# OAuth callback - MUST be first
+# OAuth callback
 /callback.html /callback.html 200!
 
 # API routes to functions
 /api/* /.netlify/functions/:splat 200!
 
-# Catch all for SPA (this should be LAST)
+# Catch all for SPA
 /* /index.html 200
