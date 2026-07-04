@@ -14,13 +14,6 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
         }
-        .animate-pulse-slow {
-            animation: pulse 3s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
         .shake {
             animation: shake 0.5s;
         }
@@ -40,19 +33,15 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 10px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #764ba2;
-        }
         .debug-console {
             background: #1a1a2e;
             color: #00ff41;
             font-family: 'Courier New', monospace;
             padding: 10px;
             border-radius: 8px;
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
             font-size: 12px;
-            margin-top: 10px;
             display: none;
         }
     </style>
@@ -235,14 +224,14 @@
                 </div>
             </div>
 
-            <!-- Debug Console (Hidden by default) -->
+            <!-- Debug Console -->
             <div id="debugConsole" class="mt-4 hidden">
                 <div class="bg-gray-900 rounded-xl p-4">
                     <div class="flex justify-between items-center mb-2">
                         <h3 class="text-white font-mono text-sm">🐛 Debug Console</h3>
                         <button onclick="toggleDebug()" class="text-gray-400 hover:text-white text-sm">✕</button>
                     </div>
-                    <div id="debugLog" class="debug-console" style="display:block; max-height:300px;"></div>
+                    <div id="debugLog" class="debug-console" style="display:block;"></div>
                 </div>
             </div>
 
@@ -260,16 +249,16 @@
     </div>
 
     <script>
-        // ============ CONFIGURATION - YOUR CREDENTIALS ADDED ============
+        // ============ CONFIGURATION - YOUR CREDENTIALS ============
         const CONFIG = {
             // GitHub OAuth
             GITHUB_CLIENT_ID: 'Ov23lidNmqhDkj3hgHtg',
             GITHUB_CLIENT_SECRET: '168b493868c5c289ce38fe37ce4d7cfae4c065b0',
             
-            // CrewAI API - Your credentials added here
+            // CrewAI API - Your credentials
             CREWAI_API_URL: 'https://resume-screening-platform-v1-575d3ff6-3f24--ff3ea2f1.crewai.com',
-            CREWAI_API_KEY: 'cd19e1ca8d33',  // Your Bearer Token
-            CREWAI_ORGANIZATION_ID: '7f687ea5-3f59-47a8-875c-5a9d07a3cb83'  // Your Organization ID
+            CREWAI_API_KEY: 'cd19e1ca8d33',
+            CREWAI_ORGANIZATION_ID: '7f687ea5-3f59-47a8-875c-5a9d07a3cb83'
         };
 
         // ============ DEBUGGING ============
@@ -284,12 +273,11 @@
             };
             debugLogs.push(logEntry);
             
-            // Update debug console if visible
             const debugElement = document.getElementById('debugLog');
             if (debugElement) {
-                debugElement.innerHTML += `\n[${timestamp}] ${message}`;
+                debugElement.innerHTML += `\n[${timestamp.slice(11, 19)}] ${message}`;
                 if (data) {
-                    debugElement.innerHTML += `\n  ${JSON.stringify(data, null, 2)}`;
+                    debugElement.innerHTML += `\n  ${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}`;
                 }
                 debugElement.scrollTop = debugElement.scrollHeight;
             }
@@ -302,7 +290,6 @@
             const isHidden = console.classList.contains('hidden');
             if (isHidden) {
                 console.classList.remove('hidden');
-                // Show debug button in header
             } else {
                 console.classList.add('hidden');
             }
@@ -324,7 +311,6 @@
         function loginWithGitHub() {
             debugLog('🔐 Starting GitHub login...');
             const authURL = `https://github.com/login/oauth/authorize?client_id=${CONFIG.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/callback.html&scope=read:user`;
-            debugLog('📡 Redirecting to GitHub:', authURL);
             window.location.href = authURL;
         }
 
@@ -513,38 +499,40 @@
 
                 updateProgress(30, 'Calling CrewAI API...');
                 
-                // ============ UPDATED: Use Netlify Proxy with Debugging ============
-                const response = await fetch('/api/crewai-proxy', {
+                // ============ DIRECT API CALL ============
+                const response = await fetch(CONFIG.CREWAI_API_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${CONFIG.CREWAI_API_KEY}`,
+                        'X-Crewai-Organization-Id': CONFIG.CREWAI_ORGANIZATION_ID
                     },
                     body: JSON.stringify(requestBody)
                 });
 
-                // Read response as text first so we can safely handle HTML/error pages
-                const contentType = response.headers.get('content-type') || '';
-                const responseText = await response.text();
                 debugLog(`📡 Response status: ${response.status}`);
                 debugLog('📡 Response headers:', Object.fromEntries(response.headers));
-                debugLog('📡 Response text snippet:', responseText.slice(0, 1000));
 
                 updateProgress(60, 'AI is analyzing with SBERT + Gemini...');
 
-                // If server didn't return JSON, surface the text for debugging
-                if (!contentType.includes('application/json')) {
-                    let parsed = null;
-                    try { parsed = JSON.parse(responseText); } catch (e) { parsed = null; }
-                    const errorMessage = (parsed && (parsed.error || parsed.message)) || responseText.substring(0, 1000);
-                    if (!response.ok) {
-                        debugLog('❌ Non-JSON error response:', errorMessage);
-                        throw new Error(errorMessage);
-                    }
-                    debugLog('❌ Received non-JSON response when JSON expected');
-                    throw new Error('Invalid JSON response from server: ' + errorMessage);
+                // Check if response is HTML (404 page)
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('text/html')) {
+                    throw new Error('API endpoint not found. Please check your CrewAI URL.');
                 }
 
-                const data = JSON.parse(responseText);
+                if (!response.ok) {
+                    let errorData;
+                    try {
+                        errorData = await response.json();
+                    } catch (e) {
+                        errorData = { error: await response.text() };
+                    }
+                    debugLog('❌ Error response:', errorData);
+                    throw new Error(errorData.error || errorData.message || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
                 debugLog('✅ Success! Data received:', data);
                 
                 updateProgress(90, 'Generating rankings...');
