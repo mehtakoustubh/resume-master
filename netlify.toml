@@ -6,19 +6,21 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# Add these redirects
-[[redirects]]
-  from = "/callback.html"
-  to = "/callback.html"
-  status = 200
-  force = true
-
+# Redirects for API
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
   force = true
 
+# OAuth callback
+[[redirects]]
+  from = "/callback.html"
+  to = "/callback.html"
+  status = 200
+  force = true
+
+# Catch all for SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -29,5 +31,5 @@
   for = "/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Headers = "Content-Type"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
