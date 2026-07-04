@@ -1,6 +1,5 @@
-// Netlify function to handle GitHub OAuth
+// netlify/functions/oauth.js
 exports.handler = async function(event, context) {
-    // Handle OPTIONS preflight
     if (event.httpMethod === 'OPTIONS') {
         return {
             statusCode: 204,
@@ -12,7 +11,6 @@ exports.handler = async function(event, context) {
         };
     }
 
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -31,9 +29,7 @@ exports.handler = async function(event, context) {
         }
 
         console.log('🔄 Exchanging code for token...');
-        console.log('📡 Redirect URI:', redirect_uri);
 
-        // Exchange code for token
         const response = await fetch('https://github.com/login/oauth/access_token', {
             method: 'POST',
             headers: {
@@ -41,27 +37,25 @@ exports.handler = async function(event, context) {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                client_id: 'Ov23lidNmqhDkj3hgHtg',
-                client_secret: '168b493868c5c289ce38fe37ce4d7cfae4c065b0',
+                client_id: 'Ov23liJgU37OwHPDdT1l',  // ← NEW Client ID
+                client_secret: '24b5e9033a16e581cdf93e9177b005470231a6ea',  // ← NEW Client Secret
                 code: code,
-                redirect_uri: redirect_uri || 'https://serene-peony-d4f686.netlify.app/callback.html'
+                redirect_uri: redirect_uri || 'https://cerulean-cendol-f25f21.netlify.app/callback.html'
             })
         });
 
         const data = await response.json();
         
         if (data.error) {
-            console.error('❌ OAuth error:', data);
             return {
                 statusCode: 400,
                 body: JSON.stringify({ error: data.error_description || data.error })
             };
         }
 
-        console.log('✅ OAuth successful');
         return {
             statusCode: 200,
-            headers: {
+            headers: { 
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type'
             },
@@ -69,7 +63,6 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error('❌ OAuth error:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: error.message })

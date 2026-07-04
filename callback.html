@@ -50,7 +50,9 @@
     </div>
 
     <script>
-        const GITHUB_CLIENT_ID = 'Ov23lidNmqhDkj3hgHtg';
+        // ============ NEW GITHUB OAUTH CREDENTIALS ============
+        const GITHUB_CLIENT_ID = 'Ov23liJgU37OwHPDdT1l';  // ← UPDATED
+        const GITHUB_CLIENT_SECRET = '24b5e9033a16e581cdf93e9177b005470231a6ea';  // ← UPDATED
         const REDIRECT_URI = window.location.origin + '/callback.html';
         
         async function handleCallback() {
@@ -71,22 +73,61 @@
 
             try {
                 console.log('🔄 Exchanging code for token...');
+                console.log('📡 Client ID:', GITHUB_CLIENT_ID);
+                console.log('📡 Redirect URI:', REDIRECT_URI);
                 
-                // Call Netlify function (no proxy needed!)
-                const response = await fetch('/.netlify/functions/oauth', {
+                // ============ OPTION 1: Try Netlify Function ============
+                try {
+                    const response = await fetch('/.netlify/functions/oauth', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            code: code,
+                            redirect_uri: REDIRECT_URI
+                        })
+                    });
+
+                    if (response.ok) {
+                        const tokenData = await response.json();
+                        
+                        if (tokenData.error) {
+                            throw new Error(tokenData.error_description || tokenData.error);
+                        }
+
+                        if (!tokenData.access_token) {
+                            throw new Error('No access token received');
+                        }
+
+                        console.log('✅ Token received successfully via Netlify function');
+                        const userData = await getUserInfo(tokenData.access_token);
+                        handleSuccessfulLogin(tokenData.access_token, userData);
+                        return;
+                    }
+                } catch (functionError) {
+                    console.log('⚠️ Netlify function failed, falling back to direct call:', functionError.message);
+                }
+
+                // ============ OPTION 2: Direct GitHub API Call (Fallback) ============
+                console.log('🔄 Using direct GitHub API call...');
+                
+                const response = await fetch('https://github.com/login/oauth/access_token', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
+                        client_id: GITHUB_CLIENT_ID,
+                        client_secret: GITHUB_CLIENT_SECRET,
                         code: code,
                         redirect_uri: REDIRECT_URI
                     })
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const tokenData = await response.json();
@@ -99,31 +140,9 @@
                     throw new Error('No access token received');
                 }
 
-                console.log('✅ Token received successfully');
-
-                // Get user info
-                const userResponse = await fetch('https://api.github.com/user', {
-                    headers: {
-                        'Authorization': `Bearer ${tokenData.access_token}`,
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (!userResponse.ok) {
-                    throw new Error(`Failed to get user info: ${userResponse.status}`);
-                }
-
-                const userData = await userResponse.json();
-                console.log('👤 User authenticated:', userData.login);
-
-                localStorage.setItem('github_token', tokenData.access_token);
-                localStorage.setItem('github_user', JSON.stringify(userData));
-
-                document.getElementById('successMessage').classList.remove('hidden');
-
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 1500);
+                console.log('✅ Token received successfully via direct call');
+                const userData = await getUserInfo(tokenData.access_token);
+                handleSuccessfulLogin(tokenData.access_token, userData);
 
             } catch (error) {
                 console.error('❌ Authentication error:', error);
@@ -133,6 +152,34 @@
             }
         }
 
+        async function getUserInfo(accessToken) {
+            const userResponse = await fetch('https://api.github.com/user', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!userResponse.ok) {
+                throw new Error(`Failed to get user info: ${userResponse.status}`);
+            }
+
+            return await userResponse.json();
+        }
+
+        function handleSuccessfulLogin(accessToken, userData) {
+            console.log('👤 User authenticated:', userData.login);
+
+            localStorage.setItem('github_token', accessToken);
+            localStorage.setItem('github_user', JSON.stringify(userData));
+
+            document.getElementById('successMessage').classList.remove('hidden');
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        }
+
         function showError(message) {
             document.getElementById('errorMessage').classList.remove('hidden');
             document.getElementById('errorText').textContent = message;
@@ -140,6 +187,7 @@
 
         console.log('🔐 OAuth Callback Handler');
         console.log('📡 Client ID:', GITHUB_CLIENT_ID);
+        console.log('📡 Redirect URI:', REDIRECT_URI);
         handleCallback();
     </script>
 </body>
