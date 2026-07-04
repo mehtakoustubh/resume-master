@@ -51,13 +51,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
-        .status-badge {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
     </style>
 </head>
 <body class="min-h-screen gradient-bg">
@@ -496,7 +489,7 @@
             }
         }
 
-        // ============ POLL FOR RESULTS ============
+        // ============ POLL FOR RESULTS - FIXED ============
         async function pollResults(kickoffId, maxAttempts = 30, interval = 2000) {
             debugLog(`🔄 Polling for results... (max ${maxAttempts} attempts)`);
             isPolling = true;
@@ -504,8 +497,16 @@
             for (let i = 0; i < maxAttempts; i++) {
                 try {
                     const status = await checkStatus(kickoffId);
+                    debugLog(`📊 Status check ${i + 1}:`, status);
                     
-                    // Check if completed
+                    // ============ FIX: Check for SUCCESS state ============
+                    if (status.state === 'SUCCESS') {
+                        debugLog('✅ Results ready!');
+                        isPolling = false;
+                        return status;
+                    }
+                    
+                    // Also check for other completion states
                     if (status.status === 'completed' || status.status === 'success') {
                         debugLog('✅ Results ready!');
                         isPolling = false;
@@ -513,14 +514,14 @@
                     }
                     
                     // Check if failed
-                    if (status.status === 'failed' || status.status === 'error') {
+                    if (status.state === 'FAILED' || status.status === 'failed' || status.status === 'error') {
                         isPolling = false;
                         throw new Error(`Screening failed: ${status.error || 'Unknown error'}`);
                     }
                     
                     // Still processing
                     const progress = Math.min(70 + (i * (25 / maxAttempts)), 95);
-                    debugLog(`⏳ Attempt ${i + 1}/${maxAttempts}: ${status.status || 'processing'}...`);
+                    debugLog(`⏳ Attempt ${i + 1}/${maxAttempts}: ${status.state || status.status || 'processing'}...`);
                     updateProgress(progress, `Processing... (${i + 1}/${maxAttempts})`);
                     
                     // Wait before next poll
@@ -671,8 +672,79 @@
             let candidates = [];
             let markdown = '';
 
-            // Try to extract candidates from response
-            if (data.output) {
+            // Check if we have the result in the data
+            if (data.result) {
+                markdown = data.result;
+                // Try to parse markdown into structured data
+                const lines = data.result.split('\n');
+                let currentCandidate = null;
+                let inTable = false;
+                
+                for (const line of lines) {
+                    // Find candidates by looking for "### Rank #X:" pattern
+                    const rankMatch = line.match(/### Rank #(\d+):\s*(.+)/);
+                    if (rankMatch) {
+                        if (currentCandidate) candidates.push(currentCandidate);
+                        currentCandidate = {
+                            rank: parseInt(rankMatch[1]),
+                            name: rankMatch[2].trim(),
+                            score: 0,
+                            skills: [],
+                            strengths: [],
+                            weaknesses: [],
+                            summary: ''
+                        };
+                        continue;
+                    }
+                    
+                    // Look for score
+                    if (currentCandidate && line.match(/\*\*Score:\*\*/)) {
+                        const scoreMatch = line.match(/\*\*Score:\*\*\s*(\d+)/);
+                        if (scoreMatch) currentCandidate.score = parseInt(scoreMatch[1]);
+                        continue;
+                    }
+                    
+                    // Look for Top Skills
+                    if (currentCandidate && line.match(/\*\*Top Skills:\*\*/)) {
+                        const skillsMatch = line.match(/\*\*Top Skills:\*\*\s*(.+)/);
+                        if (skillsMatch) {
+                            currentCandidate.skills = skillsMatch[1].split(',').map(s => s.trim());
+                        }
+                        continue;
+                    }
+                    
+                    // Look for Strengths
+                    if (currentCandidate && line.match(/\*\*Strengths:\*\*/)) {
+                        const strengthsMatch = line.match(/\*\*Strengths:\*\*\s*(.+)/);
+                        if (strengthsMatch) {
+                            currentCandidate.strengths = [strengthsMatch[1].trim()];
+                        }
+                        continue;
+                    }
+                    
+                    // Look for Weaknesses
+                    if (currentCandidate && line.match(/\*\*Weaknesses:\*\*/)) {
+                        const weaknessesMatch = line.match(/\*\*Weaknesses:\*\*\s*(.+)/);
+                        if (weaknessesMatch) {
+                            currentCandidate.weaknesses = [weaknessesMatch[1].trim()];
+                        }
+                        continue;
+                    }
+                    
+                    // Look for Fit Summary
+                    if (currentCandidate && line.match(/\*\*Fit Summary:\*\*/)) {
+                        const summaryMatch = line.match(/\*\*Fit Summary:\*\*\s*(.+)/);
+                        if (summaryMatch) {
+                            currentCandidate.summary = summaryMatch[1].trim();
+                        }
+                        continue;
+                    }
+                }
+                if (currentCandidate) candidates.push(currentCandidate);
+            }
+
+            // Fallback: try to extract from output
+            if (data.output && candidates.length === 0) {
                 markdown = data.output;
                 const lines = data.output.split('\n');
                 let currentCandidate = null;
@@ -787,8 +859,9 @@
                 `).join('');
                 elements.resultCount.textContent = `${candidates.length} candidates screened 🎯`;
             } else {
+                // Show the raw markdown if we can't parse candidates
                 elements.resultsContent.innerHTML = `
-                    <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="bg-gray-50 rounded-xl p-6 max-h-[600px] overflow-y-auto">
                         ${markdown ? `<div class="whitespace-pre-wrap font-mono text-sm">${markdown}</div>` : `<pre class="whitespace-pre-wrap">${JSON.stringify(data, null, 2)}</pre>`}
                     </div>
                 `;
