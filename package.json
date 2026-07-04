@@ -1,16 +1,13 @@
 {
   "name": "resume-master",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "vercel-build": "echo 'Build complete'"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "node-pdfplumber": "^1.0.0",
     "pdf-parse": "^1.1.1"
   }
 }
+  
