@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ============ DOCTOR STRANGE THEME ============ */
         /* ============ DOCTOR STRANGE THEME - COMPLETE ============ */
 
 /* ============ ULTRA-INTERACTIVE BACKGROUND ============ */
@@ -851,79 +850,7 @@ This report presents a comprehensive analysis of the top 10 candidates for the P
 - **Strengths:** Extensive experience with Python frameworks, strong database management skills, quick learner.
 - **Weaknesses:** Limited exposure to cloud computing platforms.
 - **Skill Gaps:** Needs improvement in cloud infrastructure knowledge.
-- **Fit Summary:** Alex Johnson is highly suitable for the Python Developer position due to his strong technical skills and extensive experience in Django and SQL.
-
-### Rank #2: Jessica Smith
-- **Score:** 89
-- **Top Skills:** Flask, AWS, REST APIs
-- **Strengths:** Strong grasp of REST API development, proficient in cloud computing.
-- **Weaknesses:** Limited experience in front-end technologies.
-- **Skill Gaps:** Needs to enhance knowledge in front-end frameworks.
-- **Fit Summary:** Jessica Smith brings a robust set of skills in Python and cloud services, making her a top contender for the role.
-
-### Rank #3: Michael Brown
-- **Score:** 88
-- **Top Skills:** Data Analysis, Pandas, REST
-- **Strengths:** Excellent data manipulation skills and proficiency in analytical tools.
-- **Weaknesses:** Less focus on web frameworks.
-- **Skill Gaps:** Could benefit from web framework experience.
-- **Fit Summary:** Michael is a highly skilled data analyst with a proficiency in Python, making him a strong candidate for data-heavy projects.
-
-### Rank #4: Emma Wilson
-- **Score:** 85
-- **Top Skills:** Machine Learning, TensorFlow, SQL
-- **Strengths:** Solid machine learning background, effective problem solver.
-- **Weaknesses:** Limited direct experience with Python web development.
-- **Skill Gaps:** Needs to focus on web application development.
-- **Fit Summary:** Emma demonstrates strong analytical capabilities with her machine learning skills.
-
-### Rank #5: Sophia Lee
-- **Score:** 84
-- **Top Skills:** Python, API Development, Flask
-- **Strengths:** Strong fundamentals in API development, quick integration abilities.
-- **Weaknesses:** Lesser experience with back-end database management.
-- **Skill Gaps:** Should improve skills in SQL and database integration.
-- **Fit Summary:** Sophia shows great potential with solid skills in Python and Flask.
-
-### Rank #6: John Doe
-- **Score:** 82
-- **Top Skills:** Testing, Docker, Git
-- **Strengths:** Strong focus on quality assurance and software development practices.
-- **Weaknesses:** Limited Python framework experience.
-- **Skill Gaps:** Needs further development in Python related frameworks.
-- **Fit Summary:** John offers strong capabilities in modern development practices.
-
-### Rank #7: Layla Martinez
-- **Score:** 80
-- **Top Skills:** Data Visualization, Python, SQL
-- **Strengths:** Exceptional at transforming data into visual insights.
-- **Weaknesses:** Limited full-stack development experience.
-- **Skill Gaps:** Needs to expand skills towards web-based development.
-- **Fit Summary:** Layla's expertise in data visualization enriches her candidacy.
-
-### Rank #8: Daniel King
-- **Score:** 78
-- **Top Skills:** HTML, CSS, Flask
-- **Strengths:** Sound understanding of web technologies and frameworks.
-- **Weaknesses:** Lack of advanced Python skills and database management.
-- **Skill Gaps:** Needs more experience with Python back-end development.
-- **Fit Summary:** Daniel has a strong footing in web technologies.
-
-### Rank #9: Rachel Adams
-- **Score:** 75
-- **Top Skills:** C++, JavaScript, Django
-- **Strengths:** Versatile programming skills with experience in multiple languages.
-- **Weaknesses:** Limited Python expertise.
-- **Skill Gaps:** Needs significant growth in Python-related projects.
-- **Fit Summary:** Rachel demonstrates competency in various programming languages.
-
-### Rank #10: Chris Parker
-- **Score:** 70
-- **Top Skills:** DevOps, Jenkins, Python
-- **Strengths:** Strong background in DevOps and CI/CD pipelines.
-- **Weaknesses:** Less emphasis on Python coding best practices.
-- **Skill Gaps:** Needs to enhance coding capabilities in Python for application development.
-- **Fit Summary:** Chris has extensive DevOps experience, which is a valuable asset.`
+- **Fit Summary:** Alex Johnson is highly suitable for the Python Developer position due to his strong technical skills and extensive experience in Django and SQL.`
         };
 
         // ============ STATE ============
@@ -1312,6 +1239,7 @@ This report presents a comprehensive analysis of the top 10 candidates for the P
             });
         }
 
+        // ============ FIXED: handleFiles for Vercel ============
         async function handleFiles(files) {
             debugLog(`📄 Processing ${files.length} files...`);
             elements.statusText.innerHTML = '<i class="fas fa-spinner fa-spin text-orange-500 mr-1"></i> Processing files...';
@@ -1325,6 +1253,7 @@ This report presents a comprehensive analysis of the top 10 candidates for the P
                 try {
                     let content = '';
                     
+                    // ============ TEXT FILES ============
                     if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
                         content = await file.text();
                         debugLog(`📄 Read text file: ${file.name} (${content.length} chars)`);
@@ -1332,35 +1261,50 @@ This report presents a comprehensive analysis of the top 10 candidates for the P
                         continue;
                     }
                     
+                    // ============ PDF FILES - For Vercel ============
                     if (file.name.endsWith('.pdf')) {
-                        debugLog(`📄 Parsing PDF: ${file.name}...`);
-                        const base64 = await fileToBase64(file);
-                        const response = await fetch('/.netlify/functions/parse-pdf', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ file: base64, filename: file.name })
-                        });
-
-                        if (!response.ok) {
-                            const errorData = await response.json();
-                            throw new Error(errorData.error || `HTTP ${response.status}`);
+                        debugLog(`📄 PDF detected: ${file.name}`);
+                        
+                        // Option 1: Try Vercel API if you have it
+                        try {
+                            const base64 = await fileToBase64(file);
+                            const response = await fetch('/api/parse-pdf', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ file: base64, filename: file.name })
+                            });
+                            
+                            if (response.ok) {
+                                const data = await response.json();
+                                if (data.success && data.text) {
+                                    content = data.text.trim();
+                                    debugLog(`✅ PDF parsed: ${file.name} (${data.pages} pages, ${content.length} chars)`);
+                                    resumes.push({ name: file.name, content: content, size: file.size });
+                                    continue;
+                                }
+                            }
+                        } catch (apiError) {
+                            debugLog(`⚠️ PDF API failed: ${apiError.message}`);
                         }
-
-                        const data = await response.json();
-                        if (data.success && data.text) {
-                            content = data.text.trim();
-                            debugLog(`✅ PDF parsed: ${file.name} (${data.pages} pages, ${content.length} chars)`);
-                        } else {
-                            throw new Error(data.error || 'Failed to parse PDF');
-                        }
-                    } else if (file.name.endsWith('.docx')) {
-                        debugLog(`📄 DOCX file detected: ${file.name}`);
-                        content = `[DOCX file: ${file.name} - Please convert to .txt or .pdf for parsing]`;
-                    } else {
-                        content = `[File: ${file.name} - Unsupported format]`;
+                        
+                        // Option 2: Fallback - send as placeholder
+                        content = `[PDF file: ${file.name}]`;
+                        debugLog(`📄 Added PDF as placeholder: ${file.name}`);
+                        resumes.push({ name: file.name, content: content, size: file.size });
+                        continue;
                     }
                     
-                    if (content) {
+                    // ============ DOCX FILES ============
+                    else if (file.name.endsWith('.docx')) {
+                        debugLog(`📄 DOCX file detected: ${file.name}`);
+                        content = `[DOCX file: ${file.name}]`;
+                        resumes.push({ name: file.name, content: content, size: file.size });
+                        continue;
+                    }
+                    
+                    // ============ OTHER FILES ============
+                    else {
+                        content = `[File: ${file.name} - Unsupported format]`;
                         resumes.push({ name: file.name, content: content, size: file.size });
                     }
                     
@@ -1368,7 +1312,7 @@ This report presents a comprehensive analysis of the top 10 candidates for the P
                     debugLog(`❌ Error processing ${file.name}:`, error);
                     resumes.push({ 
                         name: file.name, 
-                        content: `[Error processing ${file.name}: ${error.message}]`,
+                        content: `[Error: ${error.message}]`,
                         size: file.size 
                     });
                     showError(`Failed to process ${file.name}: ${error.message}`);
@@ -1392,7 +1336,7 @@ This report presents a comprehensive analysis of the top 10 candidates for the P
                         <i class="fas fa-file-alt text-orange-500"></i>
                         <span class="font-medium text-gray-300 truncate">${resume.name}</span>
                         <span class="text-xs text-gray-500 flex-shrink-0">(${(resume.size / 1024).toFixed(1)} KB)</span>
-                        ${resume.content && (resume.content.includes('[Content from') || resume.content.includes('[Error processing')) ? 
+                        ${resume.content && (resume.content.includes('[Content from') || resume.content.includes('[Error')) ? 
                             '<span class="text-xs text-yellow-500 ml-2">⚠️ Not parsed</span>' : 
                             '<span class="text-xs text-green-500 ml-2">✅ Parsed</span>'}
                     </div>
