@@ -78,11 +78,14 @@
             try {
                 console.log('🔄 Exchanging code for token...');
                 
-                const tokenResponse = await fetch('https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token', {
+                // ============ UPDATED: Use allorigins proxy ============
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const githubUrl = 'https://github.com/login/oauth/access_token';
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(githubUrl), {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         client_id: GITHUB_CLIENT_ID,
@@ -92,25 +95,30 @@
                     })
                 });
 
-                if (!tokenResponse.ok) {
-                    throw new Error(`HTTP error! status: ${tokenResponse.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const tokenData = await tokenResponse.json();
+                // The proxy returns plain text, not JSON
+                const text = await response.text();
+                console.log('Response text:', text);
                 
-                if (tokenData.error) {
-                    throw new Error(tokenData.error_description || tokenData.error);
-                }
-
-                if (!tokenData.access_token) {
+                // Parse the response (it's URL-encoded)
+                const params = new URLSearchParams(text);
+                const accessToken = params.get('access_token');
+                const tokenType = params.get('token_type');
+                const scope = params.get('scope');
+                
+                if (!accessToken) {
                     throw new Error('No access token received');
                 }
 
                 console.log('✅ Token received successfully');
 
+                // Get user info with the token
                 const userResponse = await fetch('https://api.github.com/user', {
                     headers: {
-                        'Authorization': `Bearer ${tokenData.access_token}`,
+                        'Authorization': `Bearer ${accessToken}`,
                         'Accept': 'application/json'
                     }
                 });
@@ -122,7 +130,8 @@
                 const userData = await userResponse.json();
                 console.log('👤 User authenticated:', userData.login);
 
-                localStorage.setItem('github_token', tokenData.access_token);
+                // Save to localStorage
+                localStorage.setItem('github_token', accessToken);
                 localStorage.setItem('github_user', JSON.stringify(userData));
 
                 document.getElementById('successMessage').classList.remove('hidden');
