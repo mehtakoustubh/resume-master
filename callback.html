@@ -50,9 +50,7 @@
     </div>
 
     <script>
-        // ============ GITHUB OAUTH CONFIG ============
         const GITHUB_CLIENT_ID = 'Ov23lidNmqhDkj3hgHtg';
-        const GITHUB_CLIENT_SECRET = '168b493868c5c289ce38fe37ce4d7cfae4c065b0';
         const REDIRECT_URI = window.location.origin + '/callback.html';
         
         async function handleCallback() {
@@ -62,63 +60,51 @@
             
             if (error) {
                 showError(`GitHub error: ${error}`);
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 4000);
+                setTimeout(() => window.location.href = '/', 4000);
                 return;
             }
 
             if (!code) {
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 2000);
+                setTimeout(() => window.location.href = '/', 2000);
                 return;
             }
 
             try {
                 console.log('🔄 Exchanging code for token...');
                 
-                // ============ UPDATED: Use allorigins proxy ============
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const githubUrl = 'https://github.com/login/oauth/access_token';
-                
-                const response = await fetch(proxyUrl + encodeURIComponent(githubUrl), {
+                // Call Netlify function (no proxy needed!)
+                const response = await fetch('/.netlify/functions/oauth', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        client_id: GITHUB_CLIENT_ID,
-                        client_secret: GITHUB_CLIENT_SECRET,
                         code: code,
                         redirect_uri: REDIRECT_URI
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
                 }
 
-                // The proxy returns plain text, not JSON
-                const text = await response.text();
-                console.log('Response text:', text);
+                const tokenData = await response.json();
                 
-                // Parse the response (it's URL-encoded)
-                const params = new URLSearchParams(text);
-                const accessToken = params.get('access_token');
-                const tokenType = params.get('token_type');
-                const scope = params.get('scope');
-                
-                if (!accessToken) {
+                if (tokenData.error) {
+                    throw new Error(tokenData.error_description || tokenData.error);
+                }
+
+                if (!tokenData.access_token) {
                     throw new Error('No access token received');
                 }
 
                 console.log('✅ Token received successfully');
 
-                // Get user info with the token
+                // Get user info
                 const userResponse = await fetch('https://api.github.com/user', {
                     headers: {
-                        'Authorization': `Bearer ${accessToken}`,
+                        'Authorization': `Bearer ${tokenData.access_token}`,
                         'Accept': 'application/json'
                     }
                 });
@@ -130,8 +116,7 @@
                 const userData = await userResponse.json();
                 console.log('👤 User authenticated:', userData.login);
 
-                // Save to localStorage
-                localStorage.setItem('github_token', accessToken);
+                localStorage.setItem('github_token', tokenData.access_token);
                 localStorage.setItem('github_user', JSON.stringify(userData));
 
                 document.getElementById('successMessage').classList.remove('hidden');
@@ -144,9 +129,7 @@
                 console.error('❌ Authentication error:', error);
                 showError(error.message || 'Authentication failed. Please try again.');
                 
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 4000);
+                setTimeout(() => window.location.href = '/', 4000);
             }
         }
 

@@ -1,0 +1,5 @@
+# Redirect for OAuth callback
+/callback.html /callback.html 200!
+
+# Proxy for GitHub OAuth
+/.netlify/functions/oauth /api/oauth 200!
