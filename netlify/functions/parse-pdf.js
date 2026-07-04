@@ -1,4 +1,5 @@
-const { PDFPlumber } = require('node-pdfplumber');
+// netlify/functions/parse-pdf.js
+const pdfParse = require('pdf-parse');
 
 exports.handler = async function(event, context) {
     // Handle OPTIONS preflight
@@ -37,26 +38,11 @@ exports.handler = async function(event, context) {
         // Convert base64 to buffer
         const buffer = Buffer.from(file, 'base64');
         
-        // Open PDF with node-pdfplumber
-        const pdf = await PDFPlumber.fromBuffer(buffer);
-        
-        let fullText = '';
-        let pageCount = pdf.pageCount || 0;
-        
-        // Extract text from all pages
-        for (let i = 0; i < pageCount; i++) {
-            const page = pdf.pages[i];
-            const text = await page.extractText();
-            if (text) {
-                fullText += text + '\n';
-            }
-        }
-        
-        // Clean up
-        pdf.close();
+        // Parse PDF with pdf-parse
+        const data = await pdfParse(buffer);
         
         // Extract name from first non-empty line
-        const lines = fullText.split('\n').filter(line => line.trim());
+        const lines = data.text.split('\n').filter(line => line.trim());
         let name = 'Unknown';
         if (lines.length > 0) {
             const firstLine = lines[0].trim();
@@ -65,7 +51,7 @@ exports.handler = async function(event, context) {
             }
         }
         
-        console.log(`✅ PDF parsed: ${filename || 'unknown'} (${pageCount} pages, ${fullText.length} chars)`);
+        console.log(`✅ PDF parsed: ${filename || 'unknown'} (${data.numpages} pages, ${data.text.length} chars)`);
         
         return {
             statusCode: 200,
@@ -75,9 +61,10 @@ exports.handler = async function(event, context) {
             },
             body: JSON.stringify({
                 success: true,
-                text: fullText,
+                text: data.text,
                 name: name,
-                pages: pageCount,
+                pages: data.numpages,
+                info: data.info,
                 filename: filename || 'unknown'
             })
         };
