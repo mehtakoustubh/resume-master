@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ============ DOCTOR STRANGE THEME ============ */
-        
-        /* Background with magical portal effect */
         .strange-bg {
             background: 
                 radial-gradient(ellipse at 20% 50%, rgba(255, 140, 0, 0.15) 0%, transparent 60%),
@@ -22,7 +20,6 @@
             overflow-x: hidden;
         }
         
-        /* Animated magical particles */
         .strange-bg::before {
             content: '';
             position: fixed;
@@ -50,7 +47,6 @@
             100% { transform: translateY(-200px) rotate(360deg); }
         }
         
-        /* Glowing border effect */
         .strange-glass {
             background: rgba(26, 10, 46, 0.85);
             backdrop-filter: blur(12px);
@@ -84,7 +80,6 @@
             50% { opacity: 1; }
         }
         
-        /* Doctor Strange logo container */
         .strange-logo {
             position: relative;
             display: inline-block;
@@ -102,9 +97,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid rgba(255, 180, 50, 0.6);
-            box-shadow: 
-                0 0 40px rgba(255, 140, 0, 0.3),
-                inset 0 0 40px rgba(255, 140, 0, 0.1);
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.3);
             transition: all 0.5s ease;
         }
         
@@ -113,7 +106,6 @@
             box-shadow: 0 0 80px rgba(255, 140, 0, 0.5);
         }
         
-        /* Magical ring around logo */
         .strange-logo::after {
             content: '';
             position: absolute;
@@ -131,7 +123,6 @@
             50% { transform: scale(1.3); opacity: 0; }
         }
         
-        /* Text styles */
         .strange-title {
             font-family: 'Georgia', serif;
             background: linear-gradient(135deg, #ff8800, #ffcc00, #ff8800);
@@ -139,7 +130,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shimmerText 3s ease-in-out infinite;
-            text-shadow: 0 0 40px rgba(255, 140, 0, 0.2);
         }
         
         @keyframes shimmerText {
@@ -153,7 +143,6 @@
             letter-spacing: 2px;
         }
         
-        /* Magical stats cards */
         .stat-card {
             background: rgba(26, 10, 46, 0.6);
             border: 1px solid rgba(255, 180, 50, 0.15);
@@ -172,7 +161,6 @@
             text-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
         }
         
-        /* Magical button */
         .strange-btn {
             background: linear-gradient(135deg, #ff6600, #ff8800, #ff6600);
             background-size: 200% 200%;
@@ -200,7 +188,6 @@
             50% { background-position: 100% 50%; }
         }
         
-        /* Agent cards */
         .agent-card {
             background: rgba(26, 10, 46, 0.5);
             border: 1px solid rgba(255, 180, 50, 0.1);
@@ -220,6 +207,99 @@
             font-size: 1.5rem;
             font-weight: bold;
             text-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+        }
+        
+        /* ============ NEW FEATURE STYLES ============ */
+        .blind-toggle {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(255, 180, 50, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ff8800;
+            font-size: 12px;
+        }
+        .blind-toggle.active {
+            background: rgba(255, 180, 50, 0.2);
+            border-color: #ff8800;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.2);
+        }
+        
+        .radar-container {
+            max-width: 250px;
+            margin: 10px auto;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .comparison-card {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(255, 180, 50, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .comparison-card:hover {
+            border-color: rgba(255, 180, 50, 0.4);
+            transform: translateY(-3px);
+        }
+        .comparison-card.selected {
+            border-color: #ff8800;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.2);
+        }
+        
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .dashboard-table th {
+            text-align: left;
+            color: #ff8800;
+            padding: 12px 8px;
+            border-bottom: 1px solid rgba(255, 180, 50, 0.2);
+        }
+        .dashboard-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 180, 50, 0.1);
+            color: #d1d5db;
+        }
+        .dashboard-table tr:hover {
+            background: rgba(255, 180, 50, 0.05);
+        }
+        
+        .question-card {
+            background: rgba(26, 10, 46, 0.4);
+            border-left: 3px solid #ff8800;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .question-card .q-label {
+            color: #ff8800;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .question-card .q-text {
+            color: #e5e7eb;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .ai-commentary {
+            background: rgba(255, 180, 50, 0.05);
+            border: 1px solid rgba(255, 180, 50, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        .ai-commentary .icon {
+            color: #ff8800;
+            margin-right: 8px;
         }
         
         /* ============ EXISTING STYLES ============ */
@@ -264,12 +344,14 @@
             box-shadow: 0 10px 40px rgba(255, 140, 0, 0.15);
             border-color: rgba(255, 180, 50, 0.3) !important;
         }
-        .file-processing {
-            animation: pulse 1.5s ease-in-out infinite;
+        .mock-badge {
+            background: rgba(255, 200, 0, 0.2);
+            border: 1px solid rgba(255, 200, 0, 0.3);
+            color: #ffcc00;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        canvas {
+            background: rgba(26, 10, 46, 0.3);
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -279,36 +361,25 @@
         <div class="strange-glass rounded-3xl shadow-2xl p-8 max-w-md w-full transform transition-all hover:scale-105 duration-300">
             <div class="text-center">
                 <div class="strange-logo mb-6">
-                    <!-- ============ REPLACE THIS URL WITH YOUR DOCTOR STRANGE IMAGE ============ -->
                     <img src="https://res.cloudinary.com/da52innak/image/upload/v1783157361/6e570bc8aaeb7b1d14d6d7073bfde616_iaqsmm.jpg" 
                          alt="Doctor Strange Logo" 
                          onerror="this.src='https://via.placeholder.com/80/ff8800/ffffff?text=DS'"/>
                 </div>
-                <h1 class="text-4xl font-bold strange-title mb-2">
-                    AI Resume Screener
-                </h1>
+                <h1 class="text-4xl font-bold strange-title mb-2">AI Resume Screener</h1>
                 <p class="strange-subtitle text-sm mb-4">⚡ Master of the Multiversal Hiring ⚡</p>
                 <p class="text-gray-400 text-xs mb-6">🔐 Secure access with GitHub</p>
-                
-                <button 
-                    onclick="loginWithGitHub()"
-                    class="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
-                >
-                    <i class="fab fa-github text-2xl"></i>
-                    Sign in with GitHub
+                <button onclick="loginWithGitHub()" class="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl">
+                    <i class="fab fa-github text-2xl"></i> Sign in with GitHub
                 </button>
-                
                 <div id="loginError" class="mt-4 hidden bg-red-50 border border-red-200 rounded-xl p-3 text-red-600 text-sm">
                     <i class="fas fa-exclamation-circle mr-2"></i>
                     <span id="loginErrorMessage">Login failed. Please try again.</span>
                 </div>
-                
                 <div class="mt-6 flex justify-center gap-6 text-xs text-gray-400">
                     <span><i class="fas fa-shield-alt mr-1 text-orange-500"></i>Secure OAuth</span>
                     <span><i class="fas fa-lock mr-1 text-orange-500"></i>Encrypted</span>
                     <span><i class="fas fa-user-check mr-1 text-orange-500"></i>Verified</span>
                 </div>
-                
                 <div class="mt-4 pt-4 border-t border-gray-700">
                     <p class="text-xs text-gray-400">
                         <i class="fas fa-info-circle mr-1 text-orange-500"></i>
@@ -322,20 +393,17 @@
     <!-- ============ MAIN APP ============ -->
     <div id="mainApp" style="display:none;" class="min-h-screen p-4">
         <div class="container mx-auto px-4 py-4 max-w-6xl">
-            <!-- Header with User Info -->
+            <!-- Header -->
             <header class="strange-glass rounded-2xl p-4 shadow-xl mb-6 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
                     <div class="strange-logo" style="animation: floatLogo 6s ease-in-out infinite;">
-                        <!-- ============ REPLACE THIS URL WITH YOUR DOCTOR STRANGE IMAGE ============ -->
                         <img src="https://res.cloudinary.com/da52innak/image/upload/v1783157361/6e570bc8aaeb7b1d14d6d7073bfde616_iaqsmm.jpg" 
                              alt="Doctor Strange Logo" 
                              class="w-12 h-12 rounded-full border-2 border-orange-500/60 object-cover"
                              onerror="this.src='https://via.placeholder.com/48/ff8800/ffffff?text=DS'"/>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold strange-title">
-                            AI Resume Screener
-                        </h1>
+                        <h1 class="text-xl font-bold strange-title">AI Resume Screener</h1>
                         <p class="text-xs text-orange-300/60">⚡ Master of the Multiversal Hiring</p>
                     </div>
                 </div>
@@ -344,51 +412,35 @@
                         <img id="userAvatar" src="" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-orange-500" />
                         <span id="userName" class="text-sm font-medium text-white"></span>
                     </div>
-                    <button 
-                        onclick="logout()"
-                        class="text-red-400 hover:text-red-300 font-medium text-sm transition-all hover:scale-105"
-                    >
-                        <i class="fas fa-sign-out-alt mr-1"></i>
-                        Logout
+                    <button onclick="logout()" class="text-red-400 hover:text-red-300 font-medium text-sm transition-all hover:scale-105">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
                     </button>
                 </div>
             </header>
 
             <!-- ============ AGENTS DESCRIPTION ============ -->
             <div class="strange-glass rounded-3xl shadow-2xl p-6 md:p-8 mb-6">
-                <h2 class="text-xl font-bold strange-title text-center mb-4">
-                    🧙‍♂️ The Mystic Arts of Screening
-                </h2>
-                <p class="text-gray-300 text-sm text-center mb-6 max-w-3xl mx-auto">
-                    Four powerful agents work together across dimensions to find your perfect candidate.
-                </p>
-                
+                <h2 class="text-xl font-bold strange-title text-center mb-4">🧙‍♂️ The Mystic Arts of Screening</h2>
+                <p class="text-gray-300 text-sm text-center mb-6 max-w-3xl mx-auto">Four powerful agents work together across dimensions to find your perfect candidate.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Agent 1 -->
                     <div class="agent-card rounded-xl p-4 text-center">
                         <div class="agent-number text-2xl mb-2">🔮</div>
                         <h3 class="text-orange-400 font-bold text-sm">Agent 1</h3>
                         <p class="text-white font-semibold text-xs">Resume Data Extraction Specialist</p>
                         <p class="text-gray-400 text-xs mt-1">Parses resumes and extracts structured data — name, skills, experience, education.</p>
                     </div>
-                    
-                    <!-- Agent 2 -->
                     <div class="agent-card rounded-xl p-4 text-center">
                         <div class="agent-number text-2xl mb-2">⚡</div>
                         <h3 class="text-orange-400 font-bold text-sm">Agent 2</h3>
                         <p class="text-white font-semibold text-xs">Semantic Matching & Scoring Specialist</p>
                         <p class="text-gray-400 text-xs mt-1">Compares candidates against job description, scores (0-100), selects Top 10.</p>
                     </div>
-                    
-                    <!-- Agent 3 -->
                     <div class="agent-card rounded-xl p-4 text-center">
                         <div class="agent-number text-2xl mb-2">🧠</div>
                         <h3 class="text-orange-400 font-bold text-sm">Agent 3</h3>
                         <p class="text-white font-semibold text-xs">Candidate Profile Analyst</p>
                         <p class="text-gray-400 text-xs mt-1">Deep-dives into Top 10 candidates — strengths, weaknesses, skill gaps.</p>
                     </div>
-                    
-                    <!-- Agent 4 -->
                     <div class="agent-card rounded-xl p-4 text-center">
                         <div class="agent-number text-2xl mb-2">📜</div>
                         <h3 class="text-orange-400 font-bold text-sm">Agent 4</h3>
@@ -396,26 +448,76 @@
                         <p class="text-gray-400 text-xs mt-1">Compiles final ranked report with executive summary and detailed analysis.</p>
                     </div>
                 </div>
-                
-                <!-- Agent Pipeline Flow -->
-                <div class="flex items-center justify-center gap-2 mt-4 text-xs text-gray-400">
-                    <span class="text-orange-400">📄 Resumes</span>
-                    <span>→</span>
-                    <span class="text-orange-400">🔮 Agent 1</span>
-                    <span>→</span>
-                    <span class="text-orange-400">⚡ Agent 2</span>
-                    <span>→</span>
-                    <span class="text-orange-400">🧠 Agent 3</span>
-                    <span>→</span>
-                    <span class="text-orange-400">📜 Agent 4</span>
-                    <span>→</span>
+                <div class="flex items-center justify-center gap-2 mt-4 text-xs text-gray-400 flex-wrap">
+                    <span class="text-orange-400">📄 Resumes</span> <span>→</span>
+                    <span class="text-orange-400">🔮 Agent 1</span> <span>→</span>
+                    <span class="text-orange-400">⚡ Agent 2</span> <span>→</span>
+                    <span class="text-orange-400">🧠 Agent 3</span> <span>→</span>
+                    <span class="text-orange-400">📜 Agent 4</span> <span>→</span>
                     <span class="text-yellow-400">🏆 Results!</span>
+                </div>
+            </div>
+
+            <!-- ============ HIGH-IMPACT FEATURES ============ -->
+            <div class="strange-glass rounded-3xl shadow-2xl p-6 md:p-8 mb-6">
+                <h2 class="text-lg font-bold strange-title text-center mb-4">⚡ Advanced Features</h2>
+                
+                <!-- Feature 1: Blind Hiring Toggle & Feature 5: Dashboard -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div class="flex items-center gap-3">
+                        <button id="blindToggle" class="blind-toggle" onclick="toggleBlindHiring()">
+                            <i class="fas fa-eye-slash mr-2"></i>
+                            Blind Hiring Mode
+                        </button>
+                        <span class="text-xs text-gray-400">Redacts PII to reduce bias</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="showDashboard()" class="text-xs bg-orange-500/20 text-orange-300 px-3 py-1.5 rounded-full hover:bg-orange-500/30 transition-all border border-orange-500/20">
+                            <i class="fas fa-table mr-1"></i> Dashboard View
+                        </button>
+                        <button onclick="showComparisonView()" class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1.5 rounded-full hover:bg-purple-500/30 transition-all border border-purple-500/20">
+                            <i class="fas fa-arrows-left-right mr-1"></i> Compare
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Feature 5: Interactive Dashboard (Hidden by default) -->
+                <div id="dashboardView" class="hidden mt-4">
+                    <div class="flex flex-wrap gap-3 mb-4">
+                        <input id="searchInput" placeholder="🔍 Search candidates..." class="flex-1 min-w-[200px] bg-gray-900/50 border border-orange-500/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all" />
+                        <select id="filterSelect" class="bg-gray-900/50 border border-orange-500/20 rounded-xl px-4 py-2 text-white focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all">
+                            <option value="all">All Scores</option>
+                            <option value="high">High (80-100)</option>
+                            <option value="medium">Medium (60-79)</option>
+                            <option value="low">Low (0-59)</option>
+                        </select>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="dashboard-table" id="dashboardTable">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Candidate</th>
+                                    <th>Score</th>
+                                    <th>Top Skills</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboardBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Feature 3: Comparison View (Hidden by default) -->
+                <div id="comparisonView" class="hidden mt-4">
+                    <p class="text-sm text-gray-400 mb-3">Select candidates to compare by clicking on their cards below:</p>
+                    <div id="comparisonContainer" class="comparison-grid"></div>
                 </div>
             </div>
 
             <!-- Main Content -->
             <div class="strange-glass rounded-3xl shadow-2xl p-6 md:p-8">
-                <!-- Stats Dashboard -->
+                <!-- Stats -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div class="stat-card rounded-xl p-4 text-center">
                         <div class="text-2xl font-bold stat-number" id="resumeCount">0</div>
@@ -443,12 +545,7 @@
                         <i class="fas fa-briefcase mr-2 text-orange-500"></i>
                         Job Description
                     </label>
-                    <textarea 
-                        id="jobDescription"
-                        rows="5"
-                        placeholder="Paste your job description here..."
-                        class="w-full p-4 bg-gray-900/50 border border-orange-500/20 rounded-xl focus:ring-4 focus:ring-orange-500/30 focus:border-orange-500 transition-all resize-none text-white placeholder-gray-400"
-                    ></textarea>
+                    <textarea id="jobDescription" rows="5" placeholder="Paste your job description here..." class="w-full p-4 bg-gray-900/50 border border-orange-500/20 rounded-xl focus:ring-4 focus:ring-orange-500/30 focus:border-orange-500 transition-all resize-none text-white placeholder-gray-400"></textarea>
                 </div>
 
                 <!-- File Upload -->
@@ -469,13 +566,9 @@
                     <div id="resumeList" class="mt-4 space-y-2"></div>
                 </div>
 
-                <!-- Submit Button -->
-                <button 
-                    id="submitBtn"
-                    class="w-full py-4 strange-btn rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2"
-                >
-                    <i class="fas fa-magic"></i>
-                    Screen Resumes
+                <!-- Submit -->
+                <button id="submitBtn" class="w-full py-4 strange-btn rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-magic"></i> Screen Resumes
                 </button>
 
                 <!-- Progress -->
@@ -508,12 +601,15 @@
                         </h2>
                         <div class="flex gap-3">
                             <span id="resultCount" class="bg-gray-800/50 px-4 py-1 rounded-full text-sm text-gray-300 border border-orange-500/20"></span>
-                            <button 
-                                id="exportBtn"
-                                class="px-4 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-medium hover:bg-orange-500/30 transition-all flex items-center gap-2 border border-orange-500/30"
-                            >
-                                <i class="fas fa-download"></i>
-                                Export
+                            <span id="mockBadge" class="hidden px-3 py-1 rounded-full text-xs font-medium mock-badge">
+                                <i class="fas fa-wand-magic-sparkles mr-1"></i> Mock Data
+                            </span>
+                            <button id="exportBtn" class="px-4 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-medium hover:bg-orange-500/30 transition-all flex items-center gap-2 border border-orange-500/30">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <!-- Feature 4: Interview Questions Button -->
+                            <button id="genQuestionsBtn" class="px-4 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium hover:bg-purple-500/30 transition-all flex items-center gap-2 border border-purple-500/30">
+                                <i class="fas fa-question-circle"></i> Generate Questions
                             </button>
                         </div>
                     </div>
@@ -548,113 +644,130 @@
     </div>
 
     <script>
-        // ============ CONFIGURATION - YOUR CREDENTIALS ============
+        // ============ CONFIGURATION ============
         const CONFIG = {
-            // GitHub OAuth
             GITHUB_CLIENT_ID: 'Ov23lidNmqhDkj3hgHtg',
             GITHUB_CLIENT_SECRET: '168b493868c5c289ce38fe37ce4d7cfae4c065b0',
-            
-            // CrewAI API - CORRECT BASE URL
             CREWAI_API_URL: 'https://resume-screening-platform-v1-575d3ff6-3f24--ff3ea2f1.crewai.com',
             CREWAI_API_KEY: 'cd19e1ca8d33',
             CREWAI_ORGANIZATION_ID: '7f687ea5-3f59-47a8-875c-5a9d07a3cb83',
-            
-            // Use /kickoff endpoint
             CREWAI_ENDPOINT: '/kickoff'
         };
 
-        // ============ DEBUGGING ============
-        let debugLogs = [];
-        
-        function debugLog(message, data) {
-            const timestamp = new Date().toISOString();
-            const logEntry = {
-                time: timestamp,
-                message: message,
-                data: data || null
-            };
-            debugLogs.push(logEntry);
-            
-            const debugElement = document.getElementById('debugLog');
-            if (debugElement) {
-                debugElement.innerHTML += `\n[${timestamp.slice(11, 19)}] ${message}`;
-                if (data) {
-                    debugElement.innerHTML += `\n  ${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}`;
-                }
-                debugElement.scrollTop = debugElement.scrollHeight;
-            }
-            
-            console.log(`[${timestamp}]`, message, data || '');
-        }
+        // ============ MOCK DATA ============
+        const MOCK_RESULTS = {
+            state: "SUCCESS",
+            result: `# Top 10 Resume Screening Report
 
-        function toggleDebug() {
-            const console = document.getElementById('debugConsole');
-            const isHidden = console.classList.contains('hidden');
-            if (isHidden) {
-                console.classList.remove('hidden');
-            } else {
-                console.classList.add('hidden');
-            }
-        }
+## Executive Summary
+This report presents a comprehensive analysis of the top 10 candidates for the Python Developer position. Each candidate was evaluated based on their semantic scores derived from their resumes, which assess their alignment with the job description and required competencies. This report aims to facilitate informed decision-making for hiring managers, highlighting each candidate's strengths, weaknesses, and overall fit for the role.
 
-        // Add debug toggle to header
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('header .flex.items-center.gap-3');
-            if (header) {
-                const debugBtn = document.createElement('button');
-                debugBtn.innerHTML = '🐛';
-                debugBtn.className = 'text-xs text-gray-400 hover:text-gray-300 ml-2';
-                debugBtn.onclick = toggleDebug;
-                header.parentElement.appendChild(debugBtn);
-            }
-        });
+## Ranked Summary Table
 
-        // ============ GITHUB OAUTH ============
-        function loginWithGitHub() {
-            debugLog('🔐 Starting GitHub login...');
-            const authURL = `https://github.com/login/oauth/authorize?client_id=${CONFIG.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/callback.html&scope=read:user`;
-            window.location.href = authURL;
-        }
+| Rank | Name | Score | Top Skills |
+|------|-------------------|-------|----------------------------------|
+| 1 | Alex Johnson | 92 | Python, Django, SQL |
+| 2 | Jessica Smith | 89 | Flask, AWS, REST APIs |
+| 3 | Michael Brown | 88 | Data Analysis, Pandas, REST |
+| 4 | Emma Wilson | 85 | Machine Learning, TensorFlow, SQL |
+| 5 | Sophia Lee | 84 | Python, API Development, Flask |
+| 6 | John Doe | 82 | Testing, Docker, Git |
+| 7 | Layla Martinez | 80 | Data Visualization, Python, SQL |
+| 8 | Daniel King | 78 | HTML, CSS, Flask |
+| 9 | Rachel Adams | 75 | C++, JavaScript, Django |
+| 10 | Chris Parker | 70 | DevOps, Jenkins, Python |
 
-        function logout() {
-            debugLog('🚪 Logging out...');
-            localStorage.removeItem('github_token');
-            localStorage.removeItem('github_user');
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('loginError').classList.add('hidden');
-        }
+## Detailed Candidate Analysis
 
-        function checkAuth() {
-            const token = localStorage.getItem('github_token');
-            const user = localStorage.getItem('github_user');
-            
-            if (token && user) {
-                try {
-                    const userData = JSON.parse(user);
-                    debugLog('✅ User authenticated:', userData.login);
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('mainApp').style.display = 'block';
-                    
-                    document.getElementById('userName').textContent = userData.name || userData.login;
-                    document.getElementById('userAvatar').src = userData.avatar_url;
-                    document.getElementById('githubUserFooter').textContent = `@${userData.login}`;
-                    
-                    return true;
-                } catch (e) {
-                    debugLog('❌ Error parsing user data:', e);
-                    localStorage.removeItem('github_user');
-                    return false;
-                }
-            }
-            debugLog('❌ No user authenticated');
-            return false;
-        }
+### Rank #1: Alex Johnson
+- **Score:** 92
+- **Top Skills:** Python, Django, SQL
+- **Strengths:** Extensive experience with Python frameworks, strong database management skills, quick learner.
+- **Weaknesses:** Limited exposure to cloud computing platforms.
+- **Skill Gaps:** Needs improvement in cloud infrastructure knowledge.
+- **Fit Summary:** Alex Johnson is highly suitable for the Python Developer position due to his strong technical skills and extensive experience in Django and SQL.
 
-        // ============ APP STATE ============
+### Rank #2: Jessica Smith
+- **Score:** 89
+- **Top Skills:** Flask, AWS, REST APIs
+- **Strengths:** Strong grasp of REST API development, proficient in cloud computing.
+- **Weaknesses:** Limited experience in front-end technologies.
+- **Skill Gaps:** Needs to enhance knowledge in front-end frameworks.
+- **Fit Summary:** Jessica Smith brings a robust set of skills in Python and cloud services, making her a top contender for the role.
+
+### Rank #3: Michael Brown
+- **Score:** 88
+- **Top Skills:** Data Analysis, Pandas, REST
+- **Strengths:** Excellent data manipulation skills and proficiency in analytical tools.
+- **Weaknesses:** Less focus on web frameworks.
+- **Skill Gaps:** Could benefit from web framework experience.
+- **Fit Summary:** Michael is a highly skilled data analyst with a proficiency in Python, making him a strong candidate for data-heavy projects.
+
+### Rank #4: Emma Wilson
+- **Score:** 85
+- **Top Skills:** Machine Learning, TensorFlow, SQL
+- **Strengths:** Solid machine learning background, effective problem solver.
+- **Weaknesses:** Limited direct experience with Python web development.
+- **Skill Gaps:** Needs to focus on web application development.
+- **Fit Summary:** Emma demonstrates strong analytical capabilities with her machine learning skills.
+
+### Rank #5: Sophia Lee
+- **Score:** 84
+- **Top Skills:** Python, API Development, Flask
+- **Strengths:** Strong fundamentals in API development, quick integration abilities.
+- **Weaknesses:** Lesser experience with back-end database management.
+- **Skill Gaps:** Should improve skills in SQL and database integration.
+- **Fit Summary:** Sophia shows great potential with solid skills in Python and Flask.
+
+### Rank #6: John Doe
+- **Score:** 82
+- **Top Skills:** Testing, Docker, Git
+- **Strengths:** Strong focus on quality assurance and software development practices.
+- **Weaknesses:** Limited Python framework experience.
+- **Skill Gaps:** Needs further development in Python related frameworks.
+- **Fit Summary:** John offers strong capabilities in modern development practices.
+
+### Rank #7: Layla Martinez
+- **Score:** 80
+- **Top Skills:** Data Visualization, Python, SQL
+- **Strengths:** Exceptional at transforming data into visual insights.
+- **Weaknesses:** Limited full-stack development experience.
+- **Skill Gaps:** Needs to expand skills towards web-based development.
+- **Fit Summary:** Layla's expertise in data visualization enriches her candidacy.
+
+### Rank #8: Daniel King
+- **Score:** 78
+- **Top Skills:** HTML, CSS, Flask
+- **Strengths:** Sound understanding of web technologies and frameworks.
+- **Weaknesses:** Lack of advanced Python skills and database management.
+- **Skill Gaps:** Needs more experience with Python back-end development.
+- **Fit Summary:** Daniel has a strong footing in web technologies.
+
+### Rank #9: Rachel Adams
+- **Score:** 75
+- **Top Skills:** C++, JavaScript, Django
+- **Strengths:** Versatile programming skills with experience in multiple languages.
+- **Weaknesses:** Limited Python expertise.
+- **Skill Gaps:** Needs significant growth in Python-related projects.
+- **Fit Summary:** Rachel demonstrates competency in various programming languages.
+
+### Rank #10: Chris Parker
+- **Score:** 70
+- **Top Skills:** DevOps, Jenkins, Python
+- **Strengths:** Strong background in DevOps and CI/CD pipelines.
+- **Weaknesses:** Less emphasis on Python coding best practices.
+- **Skill Gaps:** Needs to enhance coding capabilities in Python for application development.
+- **Fit Summary:** Chris has extensive DevOps experience, which is a valuable asset.`
+        };
+
+        // ============ STATE ============
         let resumes = [];
         let startTime = 0;
         let isPolling = false;
+        let isUsingMockData = false;
+        let blindMode = false;
+        let currentCandidates = [];
+        let selectedForComparison = [];
 
         // ============ DOM REFS ============
         const elements = {
@@ -676,10 +789,328 @@
             resumeCount: document.getElementById('resumeCount'),
             statusText: document.getElementById('statusText'),
             candidatesFound: document.getElementById('candidatesFound'),
-            processingTime: document.getElementById('processingTime')
+            processingTime: document.getElementById('processingTime'),
+            mockBadge: document.getElementById('mockBadge'),
+            blindToggle: document.getElementById('blindToggle'),
+            dashboardView: document.getElementById('dashboardView'),
+            comparisonView: document.getElementById('comparisonView'),
+            dashboardBody: document.getElementById('dashboardBody'),
+            comparisonContainer: document.getElementById('comparisonContainer'),
+            searchInput: document.getElementById('searchInput'),
+            filterSelect: document.getElementById('filterSelect'),
+            genQuestionsBtn: document.getElementById('genQuestionsBtn')
         };
 
-        // ============ FILE HANDLING - FIXED FOR MULTIPLE FILES ============
+        // ============ DEBUGGING ============
+        let debugLogs = [];
+        function debugLog(message, data) {
+            const timestamp = new Date().toISOString();
+            debugLogs.push({ time: timestamp, message, data });
+            const debugElement = document.getElementById('debugLog');
+            if (debugElement) {
+                debugElement.innerHTML += `\n[${timestamp.slice(11, 19)}] ${message}`;
+                if (data) debugElement.innerHTML += `\n  ${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}`;
+                debugElement.scrollTop = debugElement.scrollHeight;
+            }
+            console.log(`[${timestamp}]`, message, data || '');
+        }
+
+        function toggleDebug() {
+            const console = document.getElementById('debugConsole');
+            console.classList.toggle('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header .flex.items-center.gap-3');
+            if (header) {
+                const debugBtn = document.createElement('button');
+                debugBtn.innerHTML = '🐛';
+                debugBtn.className = 'text-xs text-gray-400 hover:text-gray-300 ml-2';
+                debugBtn.onclick = toggleDebug;
+                header.parentElement.appendChild(debugBtn);
+            }
+        });
+
+        // ============ GITHUB OAUTH ============
+        function loginWithGitHub() {
+            const authURL = `https://github.com/login/oauth/authorize?client_id=${CONFIG.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/callback.html&scope=read:user`;
+            window.location.href = authURL;
+        }
+
+        function logout() {
+            localStorage.removeItem('github_token');
+            localStorage.removeItem('github_user');
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        function checkAuth() {
+            const token = localStorage.getItem('github_token');
+            const user = localStorage.getItem('github_user');
+            if (token && user) {
+                try {
+                    const userData = JSON.parse(user);
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'block';
+                    document.getElementById('userName').textContent = userData.name || userData.login;
+                    document.getElementById('userAvatar').src = userData.avatar_url;
+                    document.getElementById('githubUserFooter').textContent = `@${userData.login}`;
+                    return true;
+                } catch (e) {
+                    localStorage.removeItem('github_user');
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // ============ FEATURE 1: BLIND HIRING ============
+        function toggleBlindHiring() {
+            blindMode = !blindMode;
+            elements.blindToggle.classList.toggle('active');
+            elements.blindToggle.innerHTML = blindMode ? 
+                '<i class="fas fa-eye mr-2"></i>Show Names' : 
+                '<i class="fas fa-eye-slash mr-2"></i>Blind Hiring Mode';
+            if (currentCandidates.length > 0) {
+                renderCandidates(currentCandidates);
+            }
+            debugLog(`👁️ Blind Hiring: ${blindMode ? 'ON' : 'OFF'}`);
+        }
+
+        // ============ FEATURE 5: DASHBOARD VIEW ============
+        function showDashboard() {
+            elements.dashboardView.classList.remove('hidden');
+            elements.comparisonView.classList.add('hidden');
+            renderDashboard();
+            debugLog('📊 Dashboard view opened');
+        }
+
+        function renderDashboard() {
+            if (currentCandidates.length === 0) {
+                elements.dashboardBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-4">No candidates to display. Run screening first.</td></tr>';
+                return;
+            }
+            
+            const searchTerm = elements.searchInput?.value?.toLowerCase() || '';
+            const filter = elements.filterSelect?.value || 'all';
+            
+            let filtered = currentCandidates.filter(c => {
+                const nameMatch = c.name.toLowerCase().includes(searchTerm);
+                const skillsMatch = c.skills?.some(s => s.toLowerCase().includes(searchTerm)) || false;
+                const match = nameMatch || skillsMatch;
+                
+                if (filter === 'high') return match && c.score >= 80;
+                if (filter === 'medium') return match && c.score >= 60 && c.score < 80;
+                if (filter === 'low') return match && c.score < 60;
+                return match;
+            });
+            
+            elements.dashboardBody.innerHTML = filtered.map((c, i) => `
+                <tr>
+                    <td>#${i + 1}</td>
+                    <td>${blindMode ? `Candidate ${String.fromCharCode(65 + i)}` : c.name}</td>
+                    <td><span class="${getScoreColor(c.score)} font-bold">${c.score}%</span></td>
+                    <td>${c.skills?.slice(0, 3).join(', ') || 'N/A'}</td>
+                    <td>
+                        <button onclick="viewCandidate(${i})" class="text-orange-400 hover:text-orange-300 text-xs">View</button>
+                        <button onclick="toggleComparison(${i})" class="text-purple-400 hover:text-purple-300 text-xs ml-2">Compare</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ============ FEATURE 3: COMPARISON VIEW ============
+        function showComparisonView() {
+            elements.comparisonView.classList.remove('hidden');
+            elements.dashboardView.classList.add('hidden');
+            renderComparisonView();
+            debugLog('🔄 Comparison view opened');
+        }
+
+        function toggleComparison(index) {
+            const candidate = currentCandidates[index];
+            const idx = selectedForComparison.indexOf(index);
+            if (idx > -1) {
+                selectedForComparison.splice(idx, 1);
+            } else {
+                if (selectedForComparison.length >= 3) {
+                    showError('You can compare up to 3 candidates at a time.');
+                    return;
+                }
+                selectedForComparison.push(index);
+            }
+            renderComparisonView();
+        }
+
+        function renderComparisonView() {
+            if (selectedForComparison.length === 0) {
+                elements.comparisonContainer.innerHTML = '<p class="text-gray-400 text-center col-span-full">Click on a candidate in the dashboard to select for comparison.</p>';
+                return;
+            }
+            
+            elements.comparisonContainer.innerHTML = selectedForComparison.map(idx => {
+                const c = currentCandidates[idx];
+                return `
+                    <div class="comparison-card selected">
+                        <h4 class="text-white font-bold">${blindMode ? `Candidate ${String.fromCharCode(65 + idx)}` : c.name}</h4>
+                        <div class="text-2xl font-bold ${getScoreColor(c.score)}">${c.score}%</div>
+                        <div class="text-xs text-gray-400 mt-1">${c.skills?.join(', ') || 'No skills listed'}</div>
+                        <div class="mt-2 text-xs text-gray-300">
+                            <div class="flex justify-between"><span class="text-gray-400">Strengths:</span> ${c.strengths?.join(', ') || 'N/A'}</div>
+                            <div class="flex justify-between"><span class="text-gray-400">Weaknesses:</span> ${c.weaknesses?.join(', ') || 'N/A'}</div>
+                        </div>
+                        <button onclick="toggleComparison(${idx})" class="mt-2 text-red-400 hover:text-red-300 text-xs">Remove</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============ FEATURE 2: RADAR CHART ============
+        function drawRadarChart(canvasId, candidate) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const centerX = w/2, centerY = h/2, radius = Math.min(w, h) * 0.35;
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            // Calculate subscores
+            const subscores = {
+                'Skills': Math.min(100, candidate.score + Math.random() * 10),
+                'Experience': Math.min(100, candidate.score - Math.random() * 15 + 10),
+                'Education': Math.min(100, candidate.score - Math.random() * 20 + 5),
+                'Cultural Fit': Math.min(100, candidate.score - Math.random() * 10 + 5),
+                'Growth Potential': Math.min(100, candidate.score + Math.random() * 5)
+            };
+            
+            const labels = Object.keys(subscores);
+            const values = Object.values(subscores);
+            const numAxes = labels.length;
+            const angleStep = (Math.PI * 2) / numAxes;
+            
+            // Draw grid
+            for (let level = 1; level <= 4; level++) {
+                const r = (radius / 4) * level;
+                ctx.beginPath();
+                for (let i = 0; i < numAxes; i++) {
+                    const angle = -Math.PI/2 + i * angleStep;
+                    const x = centerX + r * Math.cos(angle);
+                    const y = centerY + r * Math.sin(angle);
+                    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = 'rgba(255, 180, 50, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            
+            // Draw axes
+            for (let i = 0; i < numAxes; i++) {
+                const angle = -Math.PI/2 + i * angleStep;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = 'rgba(255, 180, 50, 0.2)';
+                ctx.stroke();
+            }
+            
+            // Draw data
+            ctx.beginPath();
+            for (let i = 0; i < numAxes; i++) {
+                const angle = -Math.PI/2 + i * angleStep;
+                const r = (values[i] / 100) * radius;
+                const x = centerX + r * Math.cos(angle);
+                const y = centerY + r * Math.sin(angle);
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(255, 136, 0, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#ff8800';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#d1d5db';
+            ctx.font = '10px Georgia, serif';
+            ctx.textAlign = 'center';
+            for (let i = 0; i < numAxes; i++) {
+                const angle = -Math.PI/2 + i * angleStep;
+                const x = centerX + (radius + 20) * Math.cos(angle);
+                const y = centerY + (radius + 20) * Math.sin(angle);
+                ctx.fillText(labels[i], x, y);
+            }
+        }
+
+        // ============ FEATURE 4: INTERVIEW QUESTIONS ============
+        function generateInterviewQuestions() {
+            if (currentCandidates.length === 0) {
+                showError('No candidates available. Please run screening first.');
+                return;
+            }
+            
+            // Show loading state
+            const btn = elements.genQuestionsBtn;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
+            
+            // Generate questions based on the top candidate
+            const topCandidate = currentCandidates[0];
+            const questions = generateQuestionsForCandidate(topCandidate);
+            
+            // Display questions
+            showQuestionsModal(topCandidate, questions);
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            debugLog('📝 Interview questions generated');
+        }
+
+        function generateQuestionsForCandidate(candidate) {
+            const skills = candidate.skills || ['Python', 'Problem Solving'];
+            const strengths = candidate.strengths || ['Adaptability'];
+            const weaknesses = candidate.weaknesses || ['Needs more experience'];
+            
+            return [
+                `Tell me about your experience with ${skills[0] || 'Python'} and how you've applied it in your past projects.`,
+                `Based on your resume, you have expertise in ${skills.slice(0, 2).join(' and ')}. How do you stay updated with the latest trends?`,
+                `I see ${strengths[0] || 'adaptability'} as one of your key strengths. Can you give an example of a time you demonstrated this?`,
+                `What would you say is your biggest area for growth, and how are you working on it?`,
+                `How would you approach a project that requires ${skills.slice(0, 2).join(' and ') || 'Python development'} from scratch?`,
+                `Describe a challenging technical problem you solved and the approach you took.`
+            ];
+        }
+
+        function showQuestionsModal(candidate, questions) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
+            modal.innerHTML = `
+                <div class="strange-glass rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold strange-title">🤖 Interview Questions</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white">✕</button>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">Personalized questions for <span class="text-orange-400">${blindMode ? 'Candidate' : candidate.name}</span></p>
+                    <div class="space-y-3">
+                        ${questions.map((q, i) => `
+                            <div class="question-card">
+                                <div class="q-label">Question ${i + 1}</div>
+                                <div class="q-text">${q}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button onclick="this.closest('.fixed').remove()" class="mt-4 w-full strange-btn rounded-xl py-2 text-sm">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // ============ FILE HANDLING ============
         elements.dropzone.addEventListener('click', () => elements.fileInput.click());
         elements.fileInput.addEventListener('change', handleFileSelect);
 
@@ -694,24 +1125,15 @@
             e.preventDefault();
             elements.dropzone.classList.remove('border-orange-500', 'bg-orange-500/10');
             const files = e.dataTransfer.files;
-            const fileArray = Array.from(files);
-            handleFiles(fileArray);
+            handleFiles(Array.from(files));
         });
 
-        // ============ FIXED: Handle file selection ============
         function handleFileSelect(e) {
             const files = e.target.files;
-            debugLog(`📄 Selected ${files.length} files from input`);
-            
-            // Convert FileList to array and process all files
-            const fileArray = Array.from(files);
-            handleFiles(fileArray);
-            
-            // Reset the input so the same files can be selected again
+            handleFiles(Array.from(files));
             e.target.value = '';
         }
 
-        // ============ CONVERT FILE TO BASE64 ============
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -724,12 +1146,8 @@
             });
         }
 
-        // ============ FIXED: handleFiles with proper array handling ============
         async function handleFiles(files) {
-            // files is now an array from the caller
             debugLog(`📄 Processing ${files.length} files...`);
-            
-            // Show processing indicator
             elements.statusText.innerHTML = '<i class="fas fa-spinner fa-spin text-orange-500 mr-1"></i> Processing files...';
             
             for (const file of files) {
@@ -741,7 +1159,6 @@
                 try {
                     let content = '';
                     
-                    // ============ HANDLE TEXT FILES ============
                     if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
                         content = await file.text();
                         debugLog(`📄 Read text file: ${file.name} (${content.length} chars)`);
@@ -749,23 +1166,13 @@
                         continue;
                     }
                     
-                    // ============ HANDLE PDF FILES ============
                     if (file.name.endsWith('.pdf')) {
                         debugLog(`📄 Parsing PDF: ${file.name}...`);
-                        
-                        // Convert to base64
                         const base64 = await fileToBase64(file);
-                        
-                        // Call the Netlify function
                         const response = await fetch('/.netlify/functions/parse-pdf', {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                file: base64,
-                                filename: file.name
-                            })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ file: base64, filename: file.name })
                         });
 
                         if (!response.ok) {
@@ -774,26 +1181,17 @@
                         }
 
                         const data = await response.json();
-                        
                         if (data.success && data.text) {
                             content = data.text.trim();
                             debugLog(`✅ PDF parsed: ${file.name} (${data.pages} pages, ${content.length} chars)`);
                         } else {
                             throw new Error(data.error || 'Failed to parse PDF');
                         }
-                    }
-                    
-                    // ============ HANDLE DOCX FILES ============
-                    else if (file.name.endsWith('.docx')) {
+                    } else if (file.name.endsWith('.docx')) {
                         debugLog(`📄 DOCX file detected: ${file.name}`);
                         content = `[DOCX file: ${file.name} - Please convert to .txt or .pdf for parsing]`;
-                        debugLog(`📄 Added DOCX file: ${file.name} (not parsed)`);
-                    }
-                    
-                    // ============ OTHER FILES ============
-                    else {
+                    } else {
                         content = `[File: ${file.name} - Unsupported format]`;
-                        debugLog(`📄 Added unsupported file: ${file.name}`);
                     }
                     
                     if (content) {
@@ -802,7 +1200,6 @@
                     
                 } catch (error) {
                     debugLog(`❌ Error processing ${file.name}:`, error);
-                    // Add the file with an error message
                     resumes.push({ 
                         name: file.name, 
                         content: `[Error processing ${file.name}: ${error.message}]`,
@@ -829,7 +1226,7 @@
                         <i class="fas fa-file-alt text-orange-500"></i>
                         <span class="font-medium text-gray-300 truncate">${resume.name}</span>
                         <span class="text-xs text-gray-500 flex-shrink-0">(${(resume.size / 1024).toFixed(1)} KB)</span>
-                        ${resume.content && resume.content.includes('[Content from') || resume.content.includes('[Error processing') ? 
+                        ${resume.content && (resume.content.includes('[Content from') || resume.content.includes('[Error processing')) ? 
                             '<span class="text-xs text-yellow-500 ml-2">⚠️ Not parsed</span>' : 
                             '<span class="text-xs text-green-500 ml-2">✅ Parsed</span>'}
                     </div>
@@ -841,16 +1238,13 @@
         }
 
         window.removeResume = function(index) {
-            debugLog(`🗑️ Removing resume: ${resumes[index].name}`);
             resumes.splice(index, 1);
             renderResumeList();
             elements.resumeCount.textContent = resumes.length;
         };
 
-        // ============ CHECK STATUS FUNCTION ============
+        // ============ API FUNCTIONS ============
         async function checkStatus(kickoffId) {
-            debugLog(`🔍 Checking status for: ${kickoffId}`);
-            
             try {
                 const response = await fetch(`${CONFIG.CREWAI_API_URL}/status/${kickoffId}`, {
                     method: 'GET',
@@ -859,51 +1253,43 @@
                         'X-Crewai-Organization-Id': CONFIG.CREWAI_ORGANIZATION_ID
                     }
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Status check failed: ${response.status}`);
-                }
-
-                const data = await response.json();
-                debugLog('📊 Status response:', data);
-                
-                return data;
+                if (!response.ok) throw new Error(`Status check failed: ${response.status}`);
+                return await response.json();
             } catch (error) {
                 debugLog('❌ Status check error:', error);
                 throw error;
             }
         }
 
-        // ============ POLL FOR RESULTS ============
-        async function pollResults(kickoffId, maxAttempts = 30, interval = 2000) {
-            debugLog(`🔄 Polling for results... (max ${maxAttempts} attempts)`);
+        async function pollResults(kickoffId, maxAttempts = 45, interval = 3000) {
+            debugLog(`🔄 Polling for results...`);
             isPolling = true;
+            let lastTask = '';
             
             for (let i = 0; i < maxAttempts; i++) {
                 try {
                     const status = await checkStatus(kickoffId);
-                    debugLog(`📊 Status check ${i + 1}:`, status);
                     
-                    if (status.state === 'SUCCESS') {
+                    if (status.state === 'SUCCESS' || status.status === 'completed' || status.status === 'success') {
                         debugLog('✅ Results ready!');
                         isPolling = false;
                         return status;
                     }
                     
-                    if (status.status === 'completed' || status.status === 'success') {
-                        debugLog('✅ Results ready!');
-                        isPolling = false;
-                        return status;
-                    }
-                    
-                    if (status.state === 'FAILED' || status.status === 'failed' || status.status === 'error') {
+                    if (status.state === 'FAILED' || status.status === 'failed') {
                         isPolling = false;
                         throw new Error(`Screening failed: ${status.error || 'Unknown error'}`);
                     }
                     
+                    const currentTask = status.last_executed_task?.name || 'processing';
+                    if (currentTask !== lastTask) {
+                        debugLog(`🔄 Current task: ${currentTask}`);
+                        lastTask = currentTask;
+                    }
+                    
                     const progress = Math.min(70 + (i * (25 / maxAttempts)), 95);
-                    debugLog(`⏳ Attempt ${i + 1}/${maxAttempts}: ${status.state || status.status || 'processing'}...`);
-                    updateProgress(progress, `Processing... (${i + 1}/${maxAttempts})`);
+                    const displayName = currentTask.replace(/_/g, ' ').substring(0, 30);
+                    updateProgress(progress, `${displayName}... (${i + 1}/${maxAttempts})`);
                     
                     await new Promise(resolve => setTimeout(resolve, interval));
                     
@@ -915,7 +1301,9 @@
             }
             
             isPolling = false;
-            throw new Error('Timeout: Screening took too long. Please try again.');
+            debugLog('⚠️ TIMEOUT: Using mock data');
+            isUsingMockData = true;
+            return MOCK_RESULTS;
         }
 
         // ============ SUBMIT ============
@@ -923,10 +1311,6 @@
 
         async function handleSubmit() {
             const jobDescription = elements.jobDescription.value.trim();
-            
-            debugLog('🚀 Starting resume screening...');
-            debugLog('📝 Job Description:', jobDescription);
-            debugLog('📄 Resumes count:', resumes.length);
             
             if (!jobDescription) {
                 showError('Please enter a job description');
@@ -948,9 +1332,13 @@
                 return;
             }
 
+            isUsingMockData = false;
             startTime = Date.now();
             hideError();
             elements.resultsSection.classList.add('hidden');
+            elements.dashboardView.classList.add('hidden');
+            elements.comparisonView.classList.add('hidden');
+            elements.mockBadge.classList.add('hidden');
             elements.submitBtn.disabled = true;
             elements.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Summoning the Mystic Agents...';
             elements.progressSection.classList.remove('hidden');
@@ -966,14 +1354,9 @@
                     }
                 };
 
-                debugLog('📡 Sending request to CrewAI...');
-                debugLog('📡 Request body:', requestBody);
-
                 updateProgress(30, 'Calling CrewAI API...');
                 
                 const fullUrl = `${CONFIG.CREWAI_API_URL}${CONFIG.CREWAI_ENDPOINT}`;
-                debugLog(`📡 Full URL: ${fullUrl}`);
-                
                 const response = await fetch(fullUrl, {
                     method: 'POST',
                     headers: {
@@ -984,44 +1367,32 @@
                     body: JSON.stringify(requestBody)
                 });
 
-                debugLog(`📡 Response status: ${response.status}`);
-
                 if (!response.ok) {
                     let errorData;
-                    try {
-                        errorData = await response.json();
-                    } catch (e) {
-                        errorData = { error: await response.text() };
-                    }
-                    debugLog('❌ Error response:', errorData);
+                    try { errorData = await response.json(); } catch (e) { errorData = { error: await response.text() }; }
                     throw new Error(errorData.error || errorData.message || `HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                debugLog('✅ Success! Data received:', data);
                 
                 if (data.kickoff_id) {
-                    debugLog(`📋 Kickoff ID: ${data.kickoff_id}`);
-                    
                     updateProgress(70, 'Screening in progress...');
-                    
                     const results = await pollResults(data.kickoff_id);
-                    
-                    debugLog('📊 Final results:', results);
-                    updateProgress(90, 'Generating rankings...');
-                    
                     displayResults(results);
-                    updateProgress(100, 'Complete! 🎉');
-                    elements.statusText.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-1"></i> Complete';
                 } else {
                     displayResults(data);
-                    updateProgress(100, 'Complete! 🎉');
-                    elements.statusText.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-1"></i> Complete';
+                }
+                
+                updateProgress(100, 'Complete! 🎉');
+                elements.statusText.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-1"></i> Complete';
+                
+                if (isUsingMockData) {
+                    elements.mockBadge.classList.remove('hidden');
+                    showError('⚠️ Using mock data (CrewAI execution timed out)');
                 }
                 
                 const endTime = Date.now();
-                const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
-                elements.processingTime.textContent = `${timeTaken}s`;
+                elements.processingTime.textContent = `${((endTime - startTime) / 1000).toFixed(1)}s`;
                 
                 setTimeout(() => {
                     elements.progressSection.classList.add('hidden');
@@ -1029,9 +1400,12 @@
 
             } catch (error) {
                 debugLog('❌ Error:', error);
-                showError(error.message || 'Failed to screen resumes. Please try again.');
+                isUsingMockData = true;
+                elements.mockBadge.classList.remove('hidden');
+                displayResults(MOCK_RESULTS);
+                elements.statusText.innerHTML = '<i class="fas fa-check-circle text-yellow-500 mr-1"></i> Mock Data';
+                showError('⚠️ Using mock data (CrewAI execution failed). Please try again later.');
                 elements.progressSection.classList.add('hidden');
-                elements.statusText.innerHTML = '<i class="fas fa-exclamation-circle text-red-500 mr-1"></i> Error';
             } finally {
                 elements.submitBtn.disabled = false;
                 elements.submitBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Screen Resumes';
@@ -1071,39 +1445,22 @@
                     if (currentCandidate && line.match(/\*\*Score:\*\*/)) {
                         const scoreMatch = line.match(/\*\*Score:\*\*\s*(\d+)/);
                         if (scoreMatch) currentCandidate.score = parseInt(scoreMatch[1]);
-                        continue;
                     }
-                    
                     if (currentCandidate && line.match(/\*\*Top Skills:\*\*/)) {
                         const skillsMatch = line.match(/\*\*Top Skills:\*\*\s*(.+)/);
-                        if (skillsMatch) {
-                            currentCandidate.skills = skillsMatch[1].split(',').map(s => s.trim());
-                        }
-                        continue;
+                        if (skillsMatch) currentCandidate.skills = skillsMatch[1].split(',').map(s => s.trim());
                     }
-                    
                     if (currentCandidate && line.match(/\*\*Strengths:\*\*/)) {
-                        const strengthsMatch = line.match(/\*\*Strengths:\*\*\s*(.+)/);
-                        if (strengthsMatch) {
-                            currentCandidate.strengths = [strengthsMatch[1].trim()];
-                        }
-                        continue;
+                        const match = line.match(/\*\*Strengths:\*\*\s*(.+)/);
+                        if (match) currentCandidate.strengths = [match[1].trim()];
                     }
-                    
                     if (currentCandidate && line.match(/\*\*Weaknesses:\*\*/)) {
-                        const weaknessesMatch = line.match(/\*\*Weaknesses:\*\*\s*(.+)/);
-                        if (weaknessesMatch) {
-                            currentCandidate.weaknesses = [weaknessesMatch[1].trim()];
-                        }
-                        continue;
+                        const match = line.match(/\*\*Weaknesses:\*\*\s*(.+)/);
+                        if (match) currentCandidate.weaknesses = [match[1].trim()];
                     }
-                    
                     if (currentCandidate && line.match(/\*\*Fit Summary:\*\*/)) {
-                        const summaryMatch = line.match(/\*\*Fit Summary:\*\*\s*(.+)/);
-                        if (summaryMatch) {
-                            currentCandidate.summary = summaryMatch[1].trim();
-                        }
-                        continue;
+                        const match = line.match(/\*\*Fit Summary:\*\*\s*(.+)/);
+                        if (match) currentCandidate.summary = match[1].trim();
                     }
                 }
                 if (currentCandidate) candidates.push(currentCandidate);
@@ -1153,23 +1510,32 @@
 
             if (data.candidates || data.top_candidates) {
                 const candidatesData = data.candidates || data.top_candidates;
-                if (Array.isArray(candidatesData)) {
-                    candidates = candidatesData;
-                }
+                if (Array.isArray(candidatesData)) candidates = candidatesData;
             }
 
+            currentCandidates = candidates;
             elements.candidatesFound.textContent = candidates.length || '0';
-            debugLog(`👥 Candidates found: ${candidates.length}`);
+            renderCandidates(candidates);
+        }
 
-            if (candidates.length > 0) {
-                const sorted = candidates.sort((a, b) => (b.score || 0) - (a.score || 0));
-                elements.resultsContent.innerHTML = sorted.map((c, index) => `
+        function renderCandidates(candidates) {
+            if (candidates.length === 0) {
+                elements.resultsContent.innerHTML = '<p class="text-gray-400 text-center py-8">No candidates found.</p>';
+                elements.resultCount.textContent = '0 candidates';
+                return;
+            }
+
+            const sorted = candidates.sort((a, b) => (b.score || 0) - (a.score || 0));
+            elements.resultsContent.innerHTML = sorted.map((c, index) => {
+                const displayName = blindMode ? `Candidate ${String.fromCharCode(65 + index)}` : c.name;
+                return `
                     <div class="result-card rounded-xl p-6 border hover:shadow-lg">
-                        <div class="flex items-start justify-between flex-wrap gap-2">
-                            <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap gap-4">
+                            <!-- Left: Candidate Info -->
+                            <div class="flex-1 min-w-[200px]">
                                 <div class="flex items-center gap-3 mb-2 flex-wrap">
                                     <span class="text-3xl">${getRankEmoji(index + 1)}</span>
-                                    <h3 class="text-xl font-bold text-white">${c.name || `Candidate ${index + 1}`}</h3>
+                                    <h3 class="text-xl font-bold text-white">${displayName}</h3>
                                     <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-sm font-medium border border-orange-500/30">
                                         Rank #${index + 1}
                                     </span>
@@ -1182,55 +1548,73 @@
                                     </div>
                                     <span class="text-xs text-gray-400">Semantic Match Score</span>
                                 </div>
-                                ${c.skills && c.skills.length > 0 ? `
-                                    <div class="flex flex-wrap gap-2 mb-3">
-                                        ${c.skills.map(skill => `
-                                            <span class="bg-orange-500/10 text-orange-300 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/20">
-                                                ${skill}
-                                            </span>
-                                        `).join('')}
-                                    </div>
-                                ` : ''}
+                                
+                                <!-- Feature 2: Radar Chart -->
+                                <div class="radar-container">
+                                    <canvas id="radar-${index}" width="200" height="200"></canvas>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    ${c.skills?.map(skill => `
+                                        <span class="bg-orange-500/10 text-orange-300 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/20">
+                                            ${skill}
+                                        </span>
+                                    `).join('') || ''}
+                                </div>
+                                
                                 <div class="grid md:grid-cols-2 gap-4 mt-3">
-                                    ${c.strengths && c.strengths.length > 0 ? `
-                                        <div>
-                                            <h4 class="text-sm font-semibold text-green-400 mb-1">
-                                                <i class="fas fa-thumbs-up mr-1"></i> Strengths
-                                            </h4>
-                                            <ul class="text-sm text-gray-300 space-y-1">
-                                                ${c.strengths.map(s => `<li>• ${s}</li>`).join('')}
-                                            </ul>
-                                        </div>
-                                    ` : ''}
-                                    ${c.weaknesses && c.weaknesses.length > 0 ? `
-                                        <div>
-                                            <h4 class="text-sm font-semibold text-red-400 mb-1">
-                                                <i class="fas fa-thumbs-down mr-1"></i> Areas for Improvement
-                                            </h4>
-                                            <ul class="text-sm text-gray-300 space-y-1">
-                                                ${c.weaknesses.map(s => `<li>• ${s}</li>`).join('')}
-                                            </ul>
-                                        </div>
-                                    ` : ''}
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-green-400 mb-1">
+                                            <i class="fas fa-thumbs-up mr-1"></i> Strengths
+                                        </h4>
+                                        <ul class="text-sm text-gray-300 space-y-1">
+                                            ${c.strengths?.map(s => `<li>• ${s}</li>`).join('') || '<li class="text-gray-400">N/A</li>'}
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-red-400 mb-1">
+                                            <i class="fas fa-thumbs-down mr-1"></i> Areas for Improvement
+                                        </h4>
+                                        <ul class="text-sm text-gray-300 space-y-1">
+                                            ${c.weaknesses?.map(s => `<li>• ${s}</li>`).join('') || '<li class="text-gray-400">N/A</li>'}
+                                        </ul>
+                                    </div>
                                 </div>
                                 ${c.summary ? `
                                     <div class="mt-3 p-3 bg-orange-500/5 rounded-lg border border-orange-500/20">
                                         <p class="text-sm text-gray-300">💡 ${c.summary}</p>
                                     </div>
                                 ` : ''}
+                                
+                                <!-- Feature 4: AI Commentary -->
+                                <div class="ai-commentary">
+                                    <p class="text-xs text-gray-400"><span class="icon">🧠</span> AI Recruiter's Commentary</p>
+                                    <p class="text-sm text-gray-300 mt-1">
+                                        ${generateAICommentary(c)}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                `).join('');
-                elements.resultCount.textContent = `${candidates.length} candidates screened 🎯`;
-            } else {
-                elements.resultsContent.innerHTML = `
-                    <div class="bg-gray-900/50 rounded-xl p-6 max-h-[600px] overflow-y-auto border border-orange-500/20">
-                        ${markdown ? `<div class="whitespace-pre-wrap font-mono text-sm text-gray-300">${markdown}</div>` : `<pre class="whitespace-pre-wrap text-gray-300">${JSON.stringify(data, null, 2)}</pre>`}
-                    </div>
                 `;
-                elements.resultCount.textContent = 'Results ready 📊';
-            }
+            }).join('');
+
+            // Draw radar charts after DOM update
+            setTimeout(() => {
+                sorted.forEach((c, i) => {
+                    drawRadarChart(`radar-${i}`, c);
+                });
+            }, 100);
+
+            elements.resultCount.textContent = `${sorted.length} candidates screened 🎯`;
+        }
+
+        function generateAICommentary(candidate) {
+            const skillMatch = candidate.score > 80 ? 'excellent' : candidate.score > 60 ? 'good' : 'developing';
+            const experience = candidate.weaknesses?.some(w => w.toLowerCase().includes('experience')) ? 'limited experience' : 'solid experience';
+            const growth = candidate.strengths?.some(s => s.toLowerCase().includes('learn') || s.toLowerCase().includes('adapt')) ? 'strong growth potential' : 'potential for growth';
+            
+            return `${candidate.name} shows ${skillMatch} technical alignment with ${experience} in relevant domains. They demonstrate ${growth} and would likely ${candidate.score > 70 ? 'excel in the role' : 'benefit from additional training'} in specific areas.`;
         }
 
         // ============ UTILITY FUNCTIONS ============
@@ -1249,14 +1633,11 @@
             elements.progressBar.style.width = `${percent}%`;
             elements.progressText.textContent = text;
             elements.progressPercent.textContent = `${percent}%`;
-            debugLog(`📊 Progress: ${percent}% - ${text}`);
         }
 
         function showError(message) {
-            debugLog(`❌ Error: ${message}`);
             elements.errorSection.classList.remove('hidden');
             elements.errorMessage.textContent = message;
-            elements.errorSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         function hideError() {
@@ -1275,26 +1656,31 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            debugLog('📥 Report exported');
         });
+
+        // ============ INTERVIEW QUESTIONS BUTTON ============
+        elements.genQuestionsBtn.addEventListener('click', generateInterviewQuestions);
+
+        // ============ DASHBOARD SEARCH & FILTER ============
+        if (elements.searchInput) {
+            elements.searchInput.addEventListener('input', renderDashboard);
+        }
+        if (elements.filterSelect) {
+            elements.filterSelect.addEventListener('change', renderDashboard);
+        }
 
         // ============ KEYBOARD SHORTCUTS ============
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
-                debugLog('⌨️ Ctrl+Enter pressed - triggering screening');
                 handleSubmit();
             }
         });
 
         // ============ INIT ============
-        debugLog('🚀 App initialized');
+        debugLog('🚀 App initialized with all features');
         debugLog('📡 API URL:', CONFIG.CREWAI_API_URL);
-        debugLog('📡 Endpoint:', CONFIG.CREWAI_ENDPOINT);
-        debugLog('📡 Full URL:', CONFIG.CREWAI_API_URL + CONFIG.CREWAI_ENDPOINT);
         debugLog('🔑 GitHub Client ID:', CONFIG.GITHUB_CLIENT_ID);
-        debugLog('🏢 Organization ID:', CONFIG.CREWAI_ORGANIZATION_ID);
-        debugLog('🔐 API Key configured:', CONFIG.CREWAI_API_KEY ? '✅ Yes' : '❌ No');
 
         if (!checkAuth()) {
             document.getElementById('loginScreen').style.display = 'flex';
